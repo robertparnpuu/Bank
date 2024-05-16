@@ -27,6 +27,6 @@ CREATE TABLE IF NOT EXISTS transaction (
     amount NUMERIC NOT NULL,
     currency currency_type NOT NULL,
     direction direction_type NOT NULL,
-    description VARCHAR(255),
+    description TEXT,
     FOREIGN KEY (account_id) REFERENCES account(account_id)
 );
