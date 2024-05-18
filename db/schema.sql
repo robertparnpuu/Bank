@@ -6,7 +6,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS account (
     account_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    customer_id UUID NOT NULL
+    customer_id UUID NOT NULL,
+    country VARCHAR(64) NOT NULL
 );
 
 CREATE TYPE currency_type AS ENUM ('EUR', 'SEK', 'GBP', 'USD');
