@@ -3,6 +3,7 @@ package com.rparnp.bank.service;
 import com.rparnp.bank.entity.AccountEntity;
 import com.rparnp.bank.entity.BalanceEntity;
 import com.rparnp.bank.enums.CurrencyType;
+import com.rparnp.bank.exceptions.AccountNotFoundException;
 import com.rparnp.bank.mapper.AccountMapper;
 import com.rparnp.bank.mapper.BalanceMapper;
 import com.rparnp.bank.model.AccountRequest;
@@ -26,6 +27,9 @@ public class AccountService {
 
     public AccountResponse getAccount(UUID accountId) {
         AccountEntity accountEntity = accountMapper.getById(accountId);
+        if (accountEntity == null)
+            throw new AccountNotFoundException("Account not found.");
+
         List<BalanceEntity> balanceEntities = balanceMapper.getByAccountId(accountId);
 
         List<BalanceResponse> balanceResponses = balanceEntities.stream()

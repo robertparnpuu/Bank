@@ -1,6 +1,7 @@
 package com.rparnp.bank.controller;
 
 import com.rparnp.bank.enums.CurrencyType;
+import com.rparnp.bank.exceptions.AccountNotFoundException;
 import com.rparnp.bank.exceptions.InvalidCurrencyException;
 import com.rparnp.bank.model.AccountRequest;
 import com.rparnp.bank.model.AccountResponse;
@@ -39,7 +40,7 @@ public class AccountController {
                 .body(response);
     }
 
-    @ExceptionHandler(InvalidCurrencyException.class)
+    @ExceptionHandler({InvalidCurrencyException.class, AccountNotFoundException.class})
     public ResponseEntity<String> handleException(RuntimeException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
