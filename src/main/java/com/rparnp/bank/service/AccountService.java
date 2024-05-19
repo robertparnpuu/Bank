@@ -28,7 +28,7 @@ public class AccountService {
     public AccountResponse getAccount(UUID accountId) {
         AccountEntity accountEntity = accountMapper.getById(accountId);
         if (accountEntity == null)
-            throw new AccountNotFoundException("Account not found.");
+            throw new AccountNotFoundException();
 
         List<BalanceEntity> balanceEntities = balanceMapper.getByAccountId(accountId);
 

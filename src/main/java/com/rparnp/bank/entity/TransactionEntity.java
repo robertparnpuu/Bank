@@ -2,10 +2,7 @@ package com.rparnp.bank.entity;
 
 import com.rparnp.bank.enums.CurrencyType;
 import com.rparnp.bank.enums.DirectionType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -15,7 +12,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TransactionEntity {
 
-    @NonNull
     private UUID transactionId;
     @NonNull
     private UUID accountId;
@@ -25,6 +21,7 @@ public class TransactionEntity {
     private CurrencyType currency;
     @NonNull
     private DirectionType direction;
+    @NonNull
     private String description;
 
 }

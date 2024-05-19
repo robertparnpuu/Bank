@@ -1,7 +1,9 @@
 package com.rparnp.bank.config;
 
 import com.rparnp.bank.enums.CurrencyType;
+import com.rparnp.bank.enums.DirectionType;
 import com.rparnp.bank.handler.CurrencyTypeHandler;
+import com.rparnp.bank.handler.DirectionTypeHandler;
 import com.rparnp.bank.handler.UUIDTypeHandler;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -20,6 +22,7 @@ public class MyBatisConfig {
         org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
         configuration.getTypeHandlerRegistry().register(UUID.class, new UUIDTypeHandler());
         configuration.getTypeHandlerRegistry().register(CurrencyType.class, new CurrencyTypeHandler());
+        configuration.getTypeHandlerRegistry().register(DirectionType.class, new DirectionTypeHandler());
 
         sessionFactory.setConfiguration(configuration);
 
