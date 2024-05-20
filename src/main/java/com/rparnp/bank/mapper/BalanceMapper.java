@@ -27,5 +27,5 @@ public interface BalanceMapper {
     void updateBalance(BalanceEntity balance);
 
     @Insert("INSERT INTO balance(account_id, currency) VALUES (#{accountId}, #{currency})")
-    void insert(BalanceEntity account);
+    void insert(BalanceEntity balance);
 }
