@@ -50,13 +50,20 @@ public class TransactionController {
     @ExceptionHandler({
             InvalidCurrencyException.class,
             InvalidDirectionException.class,
-            AccountNotFoundException.class,
-            InsufficientFundsException.class,
-            BalanceNotFoundException.class
+            InsufficientFundsException.class
     })
     public ResponseEntity<String> handleException(RuntimeException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler({
+            AccountNotFoundException.class,
+            BalanceNotFoundException.class})
+    public ResponseEntity<String> handleNotFoundException(RuntimeException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(ex.getMessage());
     }
 }

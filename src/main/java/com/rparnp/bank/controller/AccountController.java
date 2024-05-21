@@ -37,10 +37,17 @@ public class AccountController {
                 .body(response);
     }
 
-    @ExceptionHandler({InvalidCurrencyException.class, AccountNotFoundException.class})
+    @ExceptionHandler({InvalidCurrencyException.class})
     public ResponseEntity<String> handleException(RuntimeException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler({AccountNotFoundException.class})
+    public ResponseEntity<String> handleNotFoundException(RuntimeException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(ex.getMessage());
     }
 }
