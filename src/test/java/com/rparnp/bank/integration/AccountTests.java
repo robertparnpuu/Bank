@@ -52,14 +52,14 @@ public class AccountTests extends BaseTest {
 
         UUID uuid = responseBody.getAccountId();
 
-        AccountEntity createdAccount = accountMapper.getById(uuid);
-        List<BalanceEntity> createdBalances = balanceMapper.getByAccountId(uuid);
-
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(CUSTOMER_UUID, responseBody.getCustomerId());
         assertEquals(1, responseBody.getBalances().size());
         assertEquals(CurrencyType.EUR, responseBody.getBalances().get(0).getCurrency());
         assertEquals(AMOUNT_0, responseBody.getBalances().get(0).getAmount());
+
+        AccountEntity createdAccount = accountMapper.getById(uuid);
+        List<BalanceEntity> createdBalances = balanceMapper.getByAccountId(uuid);
 
         assertNotNull(createdAccount.getAccountId());
         assertEquals(CUSTOMER_UUID, createdAccount.getCustomerId());
@@ -98,11 +98,11 @@ public class AccountTests extends BaseTest {
     @Test
     void testGet_Success() {
         AccountEntity account = new AccountEntity(CUSTOMER_UUID, ACCOUNT_COUNTRY);
-
         accountMapper.insert(account);
-        BalanceEntity bal = new BalanceEntity(account.getAccountId(), AMOUNT_15, CurrencyType.EUR);
-        balanceMapper.insert(bal);
-        balanceMapper.updateBalance(bal);
+
+        BalanceEntity balance = new BalanceEntity(account.getAccountId(), AMOUNT_15, CurrencyType.EUR);
+        balanceMapper.insert(balance);
+        balanceMapper.updateBalance(balance);
 
         ResponseEntity<?> response = accountController.getAccount(account.getAccountId());
         AccountResponse responseBody = (AccountResponse) response.getBody();
