@@ -14,6 +14,7 @@ import com.rparnp.bank.mapper.TransactionMapper;
 import com.rparnp.bank.model.TransactionRequest;
 import com.rparnp.bank.model.TransactionResponse;
 import com.rparnp.bank.model.TransactionResponseWithRemainder;
+import com.rparnp.bank.sender.RabbitMQSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,8 @@ public class TransactionService {
     private BalanceMapper balanceMapper;
     @Autowired
     private TransactionMapper transactionMapper;
+    @Autowired
+    private RabbitMQSender rabbitMQSender;
 
     public List<TransactionResponse> getAll(UUID accountId) {
         AccountEntity account = accountMapper.getById(accountId);
@@ -60,6 +63,8 @@ public class TransactionService {
             if (newBalance.compareTo(BigDecimal.ZERO) < 0)
                 throw new InsufficientFundsException();
         }
+
+        rabbitMQSender.sendTransactionCreation(request);
 
         balance.setAmount(newBalance);
         balanceMapper.updateBalance(balance);

@@ -9,6 +9,7 @@ import com.rparnp.bank.mapper.BalanceMapper;
 import com.rparnp.bank.model.AccountRequest;
 import com.rparnp.bank.model.AccountResponse;
 import com.rparnp.bank.model.BalanceResponse;
+import com.rparnp.bank.sender.RabbitMQSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class AccountService {
     private AccountMapper accountMapper;
     @Autowired
     private BalanceMapper balanceMapper;
+    @Autowired
+    private RabbitMQSender rabbitMQSender;
 
     public AccountResponse getAccount(UUID accountId) {
         AccountEntity accountEntity = accountMapper.getById(accountId);
@@ -38,13 +41,14 @@ public class AccountService {
         return new AccountResponse(accountEntity.getAccountId(), accountEntity.getCustomerId(), balanceResponses);
     }
 
-    public AccountResponse createAccount(AccountRequest accountRequest) {
-        AccountEntity accountEntity = new AccountEntity(accountRequest.getCustomerId(), accountRequest.getCountry());
+    public AccountResponse createAccount(AccountRequest request) {
+        rabbitMQSender.sendAccountCreation(request);
+        AccountEntity accountEntity = new AccountEntity(request.getCustomerId(), request.getCountry());
 
         accountMapper.insert(accountEntity);
         List<BalanceResponse> balanceResponses = new ArrayList<>();
 
-        for (String currency : accountRequest.getCurrencies()) {
+        for (String currency : request.getCurrencies()) {
             BalanceEntity balanceEntity = new BalanceEntity(accountEntity.getAccountId(),
                     new BigDecimal("0.0"), CurrencyType.valueOf(currency));
 
