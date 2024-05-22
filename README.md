@@ -42,3 +42,6 @@ The application can be interacted with through the following endpoints on port 8
     }
     ```
     
+## Viewing messages
+
+Viewing messages can be done by navigating to http://localhost:15672 with login guest:guest
