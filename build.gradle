@@ -22,24 +22,26 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Core
+	implementation "org.springframework.boot:spring-boot-starter-web:${springStarterVersion}"
+	runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
+	// Annotations
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 	// Testing
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.amqp:spring-rabbit-test'
-	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
-	testImplementation 'org.testcontainers:postgresql:1.19.7'
-	testImplementation 'org.testcontainers:rabbitmq:1.19.7'
+	testRuntimeOnly "org.junit.platform:junit-platform-launcher:${junitVersion}"
+	testImplementation "org.springframework.boot:spring-boot-starter-test:${springStarterVersion}"
+	testImplementation "org.springframework.amqp:spring-rabbit-test:${springRabbitVersion}"
+	testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+	testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+	testImplementation "org.testcontainers:postgresql:${testcontainersVersion}"
+	testImplementation "org.testcontainers:rabbitmq:${testcontainersVersion}"
 	// MyBatis
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
-	testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3")
+	implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisStarterVersion}"
+	testImplementation "org.mybatis.spring.boot:mybatis-spring-boot-starter-test:${mybatisStarterVersion}"
 	// AMQP
-	implementation 'org.springframework.boot:spring-boot-starter-amqp:3.2.5'
+	implementation "org.springframework.boot:spring-boot-starter-amqp:${springStarterVersion}"
 }
 
 tasks.named('test') {

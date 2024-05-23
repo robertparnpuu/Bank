@@ -7,7 +7,7 @@
 
 ## Performance estimation
 
-Tested performance using Apache Bench (ab) cli tooling on WSL with application Docker container running on Windows, using a Asus Zenbook
+Tested performance using Apache Bench (ab) cli tooling on WSL with application Docker container running on Windows, using a Asus Zenbook laptop.
 
 Create transaction was chosen as the benchmarking functionality, as it is the most demanding.
 
@@ -24,7 +24,7 @@ Create transaction was chosen as the benchmarking functionality, as it is the mo
 * For an actual application, proper logging and security measures must be developed
 * Kubernetes or something similar to scale and manage multiple instances of the service.
 * Proper load balancing between multiple machines, as with the load test, requests get unacceptably long with many running at the same time 
-* An idea would be to have the HTTP request receiver be separate middleware which sends messages, and the main application to be a consumer from a message queue.
+* An idea would be to have the HTTP request receiver be separate middleware which sends messages, and the main application to be a consumer from a message queue, though then request should be validated there or in each service separately.
   * This is both to be able to scale them separately and to make the whole application run concurrently with other services which are consumers of the MQ.
   * Depends on the business logic of other services.
-* Setting up database replication and sharding
+* Setting up database replication, sharding, etc.
