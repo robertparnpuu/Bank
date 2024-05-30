@@ -6,6 +6,7 @@ import com.rparnp.bank.enums.CurrencyType;
 import com.rparnp.bank.exceptions.AccountNotFoundException;
 import com.rparnp.bank.mapper.AccountMapper;
 import com.rparnp.bank.mapper.BalanceMapper;
+import com.rparnp.bank.model.AccountMessageEntity;
 import com.rparnp.bank.model.AccountRequest;
 import com.rparnp.bank.model.AccountResponse;
 import com.rparnp.bank.model.BalanceResponse;
@@ -42,10 +43,15 @@ public class AccountService {
     }
 
     public AccountResponse createAccount(AccountRequest request) {
-        rabbitMQSender.sendAccountCreation(request);
         AccountEntity accountEntity = new AccountEntity(request.getCustomerId(), request.getCountry());
 
         accountMapper.insert(accountEntity);
+        rabbitMQSender.sendAccountCreation(new AccountMessageEntity(
+                accountEntity.getAccountId(),
+                accountEntity.getCustomerId(),
+                accountEntity.getCountry(),
+                request.getCurrencies()));
+
         List<BalanceResponse> balanceResponses = new ArrayList<>();
 
         for (String currency : request.getCurrencies()) {

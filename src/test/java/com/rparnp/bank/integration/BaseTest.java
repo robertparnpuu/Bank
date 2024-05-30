@@ -34,7 +34,7 @@ public class BaseTest {
         }
     }
 
-    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:12")
+    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:16.3-alpine")
             .withDatabaseName("testdb")
             .withUsername("test")
             .withPassword("test")

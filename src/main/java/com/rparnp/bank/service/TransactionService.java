@@ -11,6 +11,7 @@ import com.rparnp.bank.exceptions.InsufficientFundsException;
 import com.rparnp.bank.mapper.AccountMapper;
 import com.rparnp.bank.mapper.BalanceMapper;
 import com.rparnp.bank.mapper.TransactionMapper;
+import com.rparnp.bank.model.TransactionMessageEntity;
 import com.rparnp.bank.model.TransactionRequest;
 import com.rparnp.bank.model.TransactionResponse;
 import com.rparnp.bank.model.TransactionResponseWithRemainder;
@@ -64,8 +65,6 @@ public class TransactionService {
                 throw new InsufficientFundsException();
         }
 
-        rabbitMQSender.sendTransactionCreation(request);
-
         balance.setAmount(newBalance);
         balanceMapper.updateBalance(balance);
 
@@ -74,7 +73,16 @@ public class TransactionService {
                 CurrencyType.valueOf(request.getCurrency()),
                 DirectionType.valueOf(request.getDirection()),
                 request.getDescription());
+
         transactionMapper.create(transaction);
+        rabbitMQSender.sendTransactionCreation(new TransactionMessageEntity(
+                transaction.getTransactionId(),
+                transaction.getAccountId(),
+                transaction.getAmount(),
+                transaction.getCurrency(),
+                transaction.getDirection(),
+                transaction.getDescription()
+        ));
 
         return new TransactionResponseWithRemainder(transaction.getAccountId(),
                 transaction.getTransactionId(),
